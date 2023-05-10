@@ -278,6 +278,9 @@ blockquote{
 	.title-large{
 		font-size: 2.8rem;
 	}
+	h2.title-medium{
+		font-size: 1.8rem;
+	}
 	h3,
 	.title-medium{
 		font-size: 1.8rem;
@@ -295,11 +298,27 @@ blockquote{
 	.tmp-content h5{
 		font-size: 1.4rem;
 	}
+	section.add-horizontal-padding-on-mobile{
+		padding-left: 2.5rem;
+		padding-right: 2.5rem;
+		padding-top: 2.5rem;
+    	padding-bottom: 2.5rem;
+	}
 
 	/* Lead */
 	.lead{
 		font-size: 1.7rem;
+		margin-bottom: 1.5rem;
 	}
+	.feature-column.center.horizon{
+		margin: 0px;
+		padding: 0px;
+	}
+	#features.replicable-content{
+		padding-top: 6rem;
+		padding-bottom: 6rem;
+	}
+
 
 	/* Text Classes */
 	.text-xlarge{
@@ -4414,4 +4433,60 @@ only screen and (				min-resolution: 2dppx) {
 	.signup-2-shop-1{
 		background-image: url(../images/generic/signup-4_2x.jpg);
 	}
+}
+
+
+.carousel-image-container .glide__slide img{
+	object-fit: contain;
+	width: calc(100% - 40px);
+    margin: auto;
+    display: block;
+    height: 350px;
+}
+
+.carousel-image-container .glide__bullet{
+	background-color: grey;
+}
+
+.carousel-image-container .glide__bullet--active{
+	background-color: #f52e64;
+}
+.carousel-image-container  button.glide__arrow{
+	background-color: #34363a;
+    border: none;
+    border-radius: 0px;
+}
+
+.carousel-image-container  button.glide__arrow:hover,
+.carousel-image-container  button.glide__arrow:active{
+
+	background-color:  #f52e64;
+	color: white;
+    
+}
+
+.carousel-image-container .glide{
+	width: calc(100% - 40px);
+    height: 400px;
+    /*border: 3px solid #dfdbdb;*/
+    margin: 20px;
+    border-radius: 10px;
+}
+
+#featured-5  .feature-image{
+	margin-bottom: 0px;
+}
+
+@media only screen and (max-width: 768px){
+	.carousel-image-container .glide{
+		width: calc(100% - 40px);
+	    height: 250px;
+
+	}
+
+	.carousel-image-container .glide__slide img{
+		
+	    height: 200px;
+	}
+
 }
