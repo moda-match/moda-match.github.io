@@ -1310,6 +1310,9 @@ body,
 	color: #999;
 	position: relative;
 }
+.side-navigation > ul > li > a{
+	font-size: 1.4rem;
+}
 .side-navigation ul li.current > a{
 	color: #33363a;
 	font-weight: 700;
