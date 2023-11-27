@@ -62,7 +62,7 @@ body {
     transition-duration: .5s;
 }
 .row, body.boxed .wrapper-inner {
-    max-width: 114rem;
+    max-width: 115rem;
 }
 .row {
     margin-bottom: 0;
