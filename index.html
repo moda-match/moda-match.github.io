@@ -51,14 +51,15 @@
   .side.right{margin-top:52px}
   .shot{position:relative;aspect-ratio:3/4;border-radius:14px;overflow:hidden;background:#f0ecf2;box-shadow:0 20px 42px -28px rgba(28,26,30,.42)}
   .shot img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;display:block}
-  .hero-carousel{margin:28px auto 0;max-width:430px}
-  .hero-carousel .glide__track{border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 38px -28px rgba(28,26,30,.4)}
+  .hero-carousel{margin:28px auto 0;max-width:430px;position:relative}
+  .hero-carousel__viewport{border-radius:12px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 38px -28px rgba(28,26,30,.4)}
   .hero-carousel img{width:100%;display:block}
-  .hero-carousel .glide__arrows{display:flex;justify-content:space-between;position:relative;margin-top:-50%;padding:0 10px;pointer-events:none}
-  .hero-carousel .glide__arrow{width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);font-size:24px;line-height:1;cursor:pointer;pointer-events:auto;box-shadow:0 3px 12px rgba(0,0,0,.15)}
-  .hero-carousel .glide__bullets{display:flex;justify-content:center;gap:6px;margin-top:calc(50% - 14px);position:relative}
-  .hero-carousel .glide__bullet{width:7px;height:7px;border:0;border-radius:50%;padding:0;background:rgba(255,255,255,.65);cursor:pointer}
-  .hero-carousel .glide__bullet--active{background:#fff}
+  .hero-carousel__slide[hidden]{display:none}
+  .hero-carousel__arrows{display:flex;justify-content:space-between;position:absolute;inset:calc(50% - 17px) 10px auto;pointer-events:none}
+  .hero-carousel__arrow{width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.9);color:var(--ink);font-size:24px;line-height:1;cursor:pointer;pointer-events:auto;box-shadow:0 3px 12px rgba(0,0,0,.15)}
+  .hero-carousel__dots{display:flex;justify-content:center;gap:6px;position:absolute;bottom:12px;left:0;right:0}
+  .hero-carousel__dot{width:7px;height:7px;border:0;border-radius:50%;padding:0;background:rgba(255,255,255,.65);cursor:pointer}
+  .hero-carousel__dot[aria-current="true"]{background:#fff}
   @media(max-width:860px){
     .hero-grid{grid-template-columns:1fr}
     .hero-copy{order:-1;padding-top:0;margin-bottom:10px}
@@ -224,24 +225,22 @@
       <a href="#services" class="btn btn-ghost">Our services</a>
     </div>
     <div class="hero-note">Free demo work on your own products · No commitment</div>
-    <div class="hero-carousel glide" aria-label="Moda Match image examples">
-      <div class="glide__track" data-glide-el="track">
-        <ul class="glide__slides">
-          <li class="glide__slide"><img src="images/how_it_work_moda_match_v3.gif" alt="Moda Match apparel imagery example"></li>
-          <li class="glide__slide"><img src="images/modamatch-mum-input-outputv2.gif" alt="Moda Match model imagery example"></li>
-          <li class="glide__slide"><img src="images/modamatch-kids-input-outputv2.gif" alt="Moda Match childrenswear imagery example"></li>
-          <li class="glide__slide"><img src="images/modamatch-man-input-outputv2.gif" alt="Moda Match menswear imagery example"></li>
-        </ul>
+    <div class="hero-carousel" aria-label="Moda Match image examples">
+      <div class="hero-carousel__viewport">
+        <div class="hero-carousel__slide"><img src="images/how_it_work_moda_match_v3.gif" alt="Moda Match apparel imagery example"></div>
+        <div class="hero-carousel__slide" hidden><img src="images/modamatch-mum-input-outputv2.gif" alt="Moda Match model imagery example"></div>
+        <div class="hero-carousel__slide" hidden><img src="images/modamatch-kids-input-outputv2.gif" alt="Moda Match childrenswear imagery example"></div>
+        <div class="hero-carousel__slide" hidden><img src="images/modamatch-man-input-outputv2.gif" alt="Moda Match menswear imagery example"></div>
       </div>
-      <div class="glide__arrows" data-glide-el="controls">
-        <button class="glide__arrow glide__arrow--left" data-glide-dir="<" aria-label="Previous image">‹</button>
-        <button class="glide__arrow glide__arrow--right" data-glide-dir=">" aria-label="Next image">›</button>
+      <div class="hero-carousel__arrows">
+        <button class="hero-carousel__arrow" data-carousel-step="-1" aria-label="Previous image">‹</button>
+        <button class="hero-carousel__arrow" data-carousel-step="1" aria-label="Next image">›</button>
       </div>
-      <div class="glide__bullets" data-glide-el="controls[nav]">
-        <button class="glide__bullet" data-glide-dir="=0" aria-label="Show image 1"></button>
-        <button class="glide__bullet" data-glide-dir="=1" aria-label="Show image 2"></button>
-        <button class="glide__bullet" data-glide-dir="=2" aria-label="Show image 3"></button>
-        <button class="glide__bullet" data-glide-dir="=3" aria-label="Show image 4"></button>
+      <div class="hero-carousel__dots">
+        <button class="hero-carousel__dot" data-carousel-index="0" aria-label="Show image 1" aria-current="true"></button>
+        <button class="hero-carousel__dot" data-carousel-index="1" aria-label="Show image 2"></button>
+        <button class="hero-carousel__dot" data-carousel-index="2" aria-label="Show image 3"></button>
+        <button class="hero-carousel__dot" data-carousel-index="3" aria-label="Show image 4"></button>
       </div>
     </div>
   </div>
@@ -252,9 +251,22 @@
   </div>
 </div></div></div>
 
-<script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
 <script>
-  new Glide('.hero-carousel', { autoplay: 3000, hoverpause: true, type: 'carousel' }).mount();
+  document.querySelectorAll('.hero-carousel').forEach(function (carousel) {
+    var slides = carousel.querySelectorAll('.hero-carousel__slide');
+    var dots = carousel.querySelectorAll('.hero-carousel__dot');
+    var activeIndex = 0;
+    function show(index) {
+      activeIndex = (index + slides.length) % slides.length;
+      slides.forEach(function (slide, slideIndex) { slide.hidden = slideIndex !== activeIndex; });
+      dots.forEach(function (dot, dotIndex) { dot.setAttribute('aria-current', String(dotIndex === activeIndex)); });
+    }
+    carousel.querySelectorAll('[data-carousel-step]').forEach(function (button) {
+      button.addEventListener('click', function () { show(activeIndex + Number(button.dataset.carouselStep)); });
+    });
+    dots.forEach(function (dot) { dot.addEventListener('click', function () { show(Number(dot.dataset.carouselIndex)); }); });
+    setInterval(function () { show(activeIndex + 1); }, 3000);
+  });
 </script>
 
 <!-- BANNER -->
